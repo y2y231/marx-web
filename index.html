@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>马克思主义基本原理课程实践 · 计算机与马克思主义</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23B02121'/%3E%3Ctext x='12' y='17' font-size='13' text-anchor='middle' fill='%23F7F3EC' font-family='serif' font-weight='bold'%3E马%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<style>
+/* ===== 设计 token ===== */
+:root{
+  --paper:#f6f1e7;          /* 纸感米白底 */
+  --paper-2:#efe7d6;
+  --ink:#241f1a;            /* 深墨文字 */
+  --ink-soft:#5b534a;
+  --red:#b02121;            /* 红旗红 · 主强调 */
+  --red-deep:#8c1b1b;
+  --gold:#c9a227;           /* 辅助金 */
+  --line:#dcd3c1;
+  --white:#ffffff;
+  --shadow:0 10px 30px rgba(36,31,26,.10);
+  --serif:"Noto Serif SC",Georgia,"Songti SC","SimSun",serif;
+  --sans:"Noto Sans SC","Microsoft YaHei","PingFang SC",Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  line-height:1.9;
+  font-size:16px;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* ===== 顶部导航 ===== */
+header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(246,241,231,.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.hd{
+  max-width:1120px;margin:0 auto;padding:12px 22px;
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{
+  width:34px;height:34px;flex:none;border-radius:9px;
+  background:var(--red);color:var(--paper);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-weight:700;font-size:17px;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);
+}
+.brand h1{font-size:17px;font-family:var(--serif);font-weight:700;letter-spacing:.5px}
+.brand small{display:block;font-size:11px;color:var(--ink-soft);font-weight:400;letter-spacing:.3px}
+nav{display:flex;gap:4px}
+nav button{
+  background:none;border:none;cursor:pointer;
+  font-family:var(--sans);font-size:14px;color:var(--ink-soft);
+  padding:8px 14px;border-radius:8px;transition:.18s;
+}
+nav button:hover{background:var(--paper-2);color:var(--ink)}
+nav button.on{background:var(--red);color:#fff;font-weight:500}
+
+/* ===== 主体 ===== */
+main{max-width:1120px;margin:0 auto;padding:0 22px 40px}
+.page{display:none;animation:pageIn .3s ease}
+.page.on{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ===== Hero ===== */
+.hero{
+  position:relative;overflow:hidden;border-radius:20px;
+  min-height:380px;margin-top:26px;
+  display:flex;align-items:center;
+  background:linear-gradient(120deg,rgba(24,16,12,.86),rgba(140,27,27,.55)),url("assets/marx.jpg") center/cover;
+  box-shadow:var(--shadow);
+}
+.hero-inner{position:relative;z-index:2;padding:52px 46px;max-width:640px;color:var(--paper)}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12.5px;letter-spacing:2px;color:#e6c878;margin-bottom:18px;
+}
+.hero-eyebrow::before{content:"";width:30px;height:1.5px;background:var(--gold)}
+.hero h2{font-family:var(--serif);font-weight:900;font-size:clamp(30px,5vw,46px);line-height:1.25;letter-spacing:1px}
+.hero p{margin-top:16px;font-size:16px;color:#ece2d2;max-width:520px;font-weight:300}
+.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px}
+.hero-tag{
+  font-size:12.5px;color:#f3e9d8;border:1px solid rgba(246,241,231,.35);
+  padding:6px 13px;border-radius:100px;letter-spacing:.5px;
+}
+
+/* ===== 照片轮播 ===== */
+.carousel-wrap{margin-top:34px}
+.carousel-title{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.carousel-title h3{font-family:var(--serif);font-size:24px;font-weight:700}
+.carousel-title span{font-size:13px;color:var(--ink-soft)}
+.carousel{position:relative;overflow:hidden;border-radius:18px;box-shadow:var(--shadow);background:#111}
+.carousel-track{display:flex;transition:transform .55s cubic-bezier(.4,0,.2,1)}
+.slide{min-width:100%;position:relative;height:min(56vw,440px)}
+.slide img{width:100%;height:100%;object-fit:cover;object-position:center}
+.slide .cap-text{display:block}
+.slide-cap{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:54px 34px 26px;
+  background:linear-gradient(to top,rgba(12,8,6,.9),rgba(12,8,6,.35),transparent);
+  color:#f7f0e2;
+}
+.slide-cap h4{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:.5px}
+.slide-cap p{font-size:14px;color:#ded2be;margin-top:6px;max-width:720px}
+.carousel-btn{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:5;
+  width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;
+  background:rgba(20,14,10,.55);color:#fff;font-size:20px;
+  display:flex;align-items:center;justify-content:center;
+  transition:.2s;backdrop-filter:blur(3px);
+}
+.carousel-btn:hover{background:rgba(176,33,33,.85)}
+.carousel-btn.prev{left:16px}
+.carousel-btn.next{right:16px}
+.carousel-dots{
+  position:absolute;bottom:14px;right:22px;z-index:5;
+  display:flex;gap:8px;
+}
+.carousel-dots button{
+  width:9px;height:9px;border-radius:50%;border:none;cursor:pointer;
+  background:rgba(255,255,255,.45);transition:.2s;padding:0;
+}
+.carousel-dots button.on{background:#e6c878;transform:scale(1.25)}
+
+/* ===== 引言 & 入口 ===== */
+.quote{
+  margin:34px 0;padding:26px 30px;
+  background:var(--white);border-left:5px solid var(--red);
+  border-radius:0 14px 14px 0;box-shadow:var(--shadow);
+  font-family:var(--serif);font-style:italic;color:var(--ink-soft);font-size:17px;
+}
+.quote b{color:var(--red);font-style:normal;font-weight:700}
+.feature-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:8px}
+.feature{
+  background:var(--white);border:1px solid var(--line);border-radius:14px;
+  padding:26px;cursor:pointer;transition:.2s;position:relative;overflow:hidden;
+}
+.feature:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--red)}
+.feature::after{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:var(--red);opacity:0;transition:.2s;
+}
+.feature:hover::after{opacity:1}
+.feature h3{font-family:var(--serif);font-size:19px;color:var(--red-deep);margin-bottom:8px}
+.feature p{font-size:14px;color:var(--ink-soft)}
+
+/* ===== 章节标题 ===== */
+.sec-h{font-family:var(--serif);font-size:clamp(24px,3vw,30px);font-weight:800;margin:44px 0 6px;display:flex;align-items:center;gap:12px}
+.sec-h::before{content:"";width:8px;height:26px;background:var(--red);border-radius:3px}
+.sec-s{color:var(--ink-soft);font-size:14px;margin-bottom:26px}
+
+/* ===== 原理笔记 ===== */
+.cards{display:grid;grid-template-columns:1fr;gap:16px}
+.card{
+  background:var(--white);border:1px solid var(--line);border-radius:14px;
+  padding:24px 24px 20px;transition:.2s;
+}
+.card:hover{box-shadow:var(--shadow)}
+.card h4{font-family:var(--serif);font-size:18px;color:var(--red-deep);margin-bottom:10px}
+.card p{font-size:14.5px;color:var(--ink-soft)}
+.card .from{
+  margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);
+  font-size:13.5px;color:var(--ink);
+}
+.card .from b{color:var(--gold);font-weight:600}
+
+/* ===== 结合专业 ===== */
+.tech-list{display:flex;flex-direction:column;gap:12px}
+.tech-item{
+  background:var(--white);border:1px solid var(--line);border-radius:12px;
+  padding:20px 24px;cursor:pointer;display:flex;align-items:center;gap:16px;
+  transition:.2s;text-align:left;
+}
+.tech-item:hover{box-shadow:var(--shadow);border-color:var(--red);transform:translateX(4px)}
+.tech-num{
+  flex:none;width:38px;height:38px;border-radius:10px;
+  background:var(--red);color:#fff;font-family:var(--serif);font-weight:700;
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+}
+.tech-item h4{font-size:16px;color:var(--ink);margin-bottom:3px;font-weight:600}
+.tech-item p{font-size:13.5px;color:var(--ink-soft);margin:0}
+
+/* ===== 发展历程 · 时间轴（grid 三列，圆点与轴线像素对齐）===== */
+.timeline{display:flex;flex-direction:column;gap:0;margin-top:8px}
+.tl-item{
+  display:grid;grid-template-columns:92px 28px 1fr;
+  padding-bottom:26px;position:relative;
+}
+.tl-rail{grid-column:2;justify-self:center;position:relative}
+.tl-rail .dot{
+  width:14px;height:14px;border-radius:50%;background:var(--red);
+  border:3px solid var(--paper);box-shadow:0 0 0 2px var(--red);
+  position:relative;z-index:2;margin-top:6px;
+}
+.tl-rail .line{
+  position:absolute;left:50%;top:24px;bottom:-30px;width:2px;
+  transform:translateX(-50%);background:var(--line);
+}
+.tl-item:last-child .tl-rail .line{display:none}
+.tl-time{grid-column:1;text-align:right;padding-right:14px;padding-top:4px}
+.tl-time .yr{font-family:var(--serif);font-weight:900;color:var(--red-deep);font-size:16px;letter-spacing:.5px}
+.tl-body{grid-column:3;padding-left:14px}
+.tl-body h4{font-family:var(--serif);font-size:17px;color:var(--ink);margin-bottom:5px}
+.tl-body p{font-size:14px;color:var(--ink-soft);margin:0}
+
+/* ===== 页脚 ===== */
+footer{
+  text-align:center;padding:30px 20px;margin-top:46px;
+  border-top:1px solid var(--line);color:var(--ink-soft);font-size:13px;
+}
+
+/* ===== 弹窗 ===== */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(24,16,12,.55);z-index:1000;
+  display:none;align-items:center;justify-content:center;padding:22px;
+}
+.modal-overlay.show{display:flex}
+.modal-content{
+  background:var(--white);width:100%;max-width:620px;border-radius:16px;
+  padding:32px;position:relative;max-height:82vh;overflow-y:auto;box-shadow:var(--shadow);
+}
+.modal-close{
+  position:absolute;top:16px;right:18px;width:36px;height:36px;border:none;cursor:pointer;
+  background:var(--paper-2);border-radius:50%;font-size:19px;color:var(--ink);transition:.2s;
+}
+.modal-close:hover{background:var(--red);color:#fff}
+.modal-kicker{font-size:12px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+.modal-content h3{font-family:var(--serif);font-size:22px;color:var(--red-deep);margin-bottom:16px}
+.modal-content p{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+
+@media(min-width:768px){
+  .feature-grid{grid-template-columns:repeat(3,1fr)}
+  .cards{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:560px){
+  .hd{flex-wrap:wrap;padding:10px 14px;gap:6px}
+  .brand small{display:none}
+  .brand h1{font-size:15px}
+  nav{width:100%;justify-content:space-between}
+  nav button{padding:6px 8px;font-size:13px;flex:1;text-align:center}
+  .hero-inner{padding:34px 24px}
+  .carousel-btn{width:36px;height:36px}
+  .tl-item{grid-template-columns:64px 24px 1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hd">
+    <div class="brand">
+      <div class="brand-mark">马</div>
+      <div>
+        <h1>马克思主义基本原理课程实践</h1>
+        <small>计算机科学与技术专业 · 课程实践作业</small>
+      </div>
+    </div>
+    <nav>
+      <button class="on" data-p="home">首页</button>
+      <button data-p="theory">原理笔记</button>
+      <button data-p="tech">结合专业</button>
+      <button data-p="history">发展历程</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ===== 视图：首页 ===== -->
+  <section class="page on" id="home">
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-eyebrow">马克思主义基本原理 · 课程实践</div>
+        <h2>计算机与马克思主义</h2>
+        <p>以计算机领域的真实场景，重新理解基本原理的时代价值——从生产方式变革到技术异化，从集体协作到实践检验。</p>
+        <div class="hero-meta">
+          <span class="hero-tag">物质决定意识</span>
+          <span class="hero-tag">矛盾分析法</span>
+          <span class="hero-tag">实践观</span>
+          <span class="hero-tag">群众史观</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-wrap">
+      <div class="carousel-title">
+        <h3>图像中的马克思主义</h3>
+        <span>4 张实拍照片 · 一条从理论到数字时代的线索</span>
+      </div>
+      <div class="carousel" id="carousel">
+        <div class="carousel-track" id="carTrack">
+          <div class="slide"><img src="assets/marx.jpg" alt="思想之源"><div class="slide-cap"><h4>思想之源</h4><p>马克思青铜雕像。理论并非凭空产生，而是欧洲工业革命与无产阶级运动实践的产物。</p></div></div>
+          <div class="slide"><img src="assets/greathall.jpg" alt="理论的中国实践"><div class="slide-cap"><h4>理论的中国实践</h4><p>人民大会堂夜景。马克思主义基本原理同中国具体实际相结合，在当代中国获得新的生命力。</p></div></div>
+          <div class="slide"><img src="assets/ai.jpg" alt="当代新质生产力"><div class="slide-cap"><h4>当代新质生产力</h4><p>人工智能与数据交互。生产方式变革正以全新形态重塑生产力与生产关系的现实图景。</p></div></div>
+          <div class="slide"><img src="assets/datacenter.jpg" alt="数字时代的物质基础"><div class="slide-cap"><h4>数字时代的物质基础</h4><p>数据中心机房。算力与基础设施构成数字时代的技术条件，印证生产力决定生产关系的基本规律。</p></div></div>
+        </div>
+        <button class="carousel-btn prev" id="carPrev" aria-label="上一张">‹</button>
+        <button class="carousel-btn next" id="carNext" aria-label="下一张">›</button>
+        <div class="carousel-dots" id="carDots"></div>
+      </div>
+    </div>
+
+    <div class="quote">
+      “哲学家们只是用不同的方式解释世界，而问题在于改变世界。”<br>
+      —— 马克思《关于费尔巴哈的提纲》
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature" data-target="theory">
+        <h3>原理笔记</h3>
+        <p>按教材章节整理的核心知识点与对应方法论</p>
+      </div>
+      <div class="feature" data-target="tech">
+        <h3>结合专业</h3>
+        <p>以计算机领域的典型场景理解基本原理</p>
+      </div>
+      <div class="feature" data-target="history">
+        <h3>发展历程</h3>
+        <p>马克思主义发展过程中的若干关键节点</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 视图：原理笔记 ===== -->
+  <section class="page" id="theory">
+    <h2 class="sec-h">原理笔记</h2>
+    <p class="sec-s">按教材章节顺序整理，以规范表述为主，辅以必要的方法论说明。</p>
+    <div class="cards">
+      <div class="card">
+        <h4>物质决定意识</h4>
+        <p>物质第一性，意识第二性。物质决定意识，意识是物质世界长期发展的产物，是人脑的机能和客观存在的主观映象。意识具有能动作用，但这种能动作用以承认并尊重客观规律为前提，不能理解为意识可以脱离物质条件任意创造。</p>
+        <div class="from"><b>方法论 · </b>一切从实际出发，实事求是，把发挥主观能动性与尊重客观规律统一起来。</div>
+      </div>
+      <div class="card">
+        <h4>矛盾的普遍性与特殊性</h4>
+        <p>矛盾具有普遍性，事事有矛盾、时时有矛盾；矛盾又具有特殊性，不同事物、同一事物在不同阶段的矛盾各有其特点。二者是共性与个性、一般与个别的关系。在复杂事物中，还要区分主要矛盾与次要矛盾、矛盾的主要方面与次要方面。</p>
+        <div class="from"><b>方法论 · </b>坚持具体问题具体分析，同时做到两点论与重点论的统一。</div>
+      </div>
+      <div class="card">
+        <h4>量变与质变</h4>
+        <p>质量互变规律揭示事物发展的形式和状态。量变是质变的必要准备，质变是量变的必然结果，二者相互渗透。度是保持事物质的稳定性的数量界限，超出度就会发生质变。事物的发展总是经过量变积累、在度的临界点上实现质变，再到新的量变，如此循环上升。</p>
+        <div class="from"><b>方法论 · </b>既要重视量的积累，又要抓住时机促成质变，同时坚持适度原则。</div>
+      </div>
+      <div class="card">
+        <h4>实践与认识的辩证关系</h4>
+        <p>实践是认识的基础，是认识的来源、发展动力、最终目的，也是检验认识真理性的唯一标准。认识运动具有反复性和无限性，表现为从感性认识到理性认识、再从理性认识到实践的两次飞跃，循环往复、不断深化。真理是具体的、有条件的，是绝对性与相对性的统一。</p>
+        <div class="from"><b>方法论 · </b>坚持实践第一的观点，实现理论与实践具体的历史的统一。</div>
+      </div>
+      <div class="card">
+        <h4>社会存在与社会意识</h4>
+        <p>社会存在决定社会意识，社会意识是社会存在的反映，并具有相对独立性。生产力决定生产关系，生产关系反作用于生产力；经济基础决定上层建筑，上层建筑反作用于经济基础。这两对矛盾的运动构成人类社会发展的基本规律。</p>
+        <div class="from"><b>方法论 · </b>从一定社会的物质生活条件出发理解其思想观念，同时重视社会意识的能动反作用。</div>
+      </div>
+      <div class="card">
+        <h4>人民群众是历史的创造者</h4>
+        <p>历史唯物主义认为，人民群众是社会历史的主体，是社会物质财富和精神财富的创造者，也是社会变革的决定力量。社会形态更替的最终决定力量是生产力的发展，但这一过程总是通过人民群众的实践活动来实现的。同时也要承认个人、特别是杰出人物在历史上的作用，但这种作用不能脱离人民群众这一历史主体。</p>
+        <div class="from"><b>方法论 · </b>坚持群众观点和群众路线，把尊重社会发展规律与尊重人民主体地位统一起来。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 视图：结合专业 ===== -->
+  <section class="page" id="tech">
+    <h2 class="sec-h">结合专业</h2>
+    <p class="sec-s">选取计算机领域中的若干场景，对相关原理作简要分析。点击条目查看具体说明。</p>
+    <div class="tech-list">
+      <div class="tech-item" data-key="t1"><span class="tech-num">01</span><span><h4>生产力与生产关系 → 硬件与软件</h4><p>硬件算力构成技术基础，软件生态则表现为建立在其上的协作与组织方式，二者相互制约、相互促进。</p></span></div>
+      <div class="tech-item" data-key="t2"><span class="tech-num">02</span><span><h4>量变与质变 → 算法优化</h4><p>代码的逐步重构属于量变，算法复杂度的阶数下降则构成性能上的质变。</p></span></div>
+      <div class="tech-item" data-key="t3"><span class="tech-num">03</span><span><h4>矛盾分析法 → 时间与空间的取舍</h4><p>时间复杂度和空间复杂度构成一对矛盾，具体算法选择取决于应用场景中的主要矛盾。</p></span></div>
+      <div class="tech-item" data-key="t4"><span class="tech-num">04</span><span><h4>实践是检验真理的唯一标准 → 软件测试</h4><p>代码是否正确不由主观判断决定，而由测试结果检验。</p></span></div>
+      <div class="tech-item" data-key="t5"><span class="tech-num">05</span><span><h4>科技异化 → 过度依赖AI</h4><p>工具本应服务于人，若使用不当，则可能反过来削弱使用者自身的能力。</p></span></div>
+      <div class="tech-item" data-key="t6"><span class="tech-num">06</span><span><h4>人民群众是历史的创造者 → 开源社区</h4><p>大型开源项目是大量开发者长期协作的产物，体现了集体实践的力量。</p></span></div>
+    </div>
+  </section>
+
+  <!-- ===== 视图：发展历程 ===== -->
+  <section class="page" id="history">
+    <h2 class="sec-h">发展历程</h2>
+    <p class="sec-s">选取若干关键节点，简要梳理马克思主义的发展脉络。</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-time"><span class="yr">1848</span></div><div class="tl-rail"><div class="dot"></div><div class="line"></div></div><div class="tl-body"><h4>《共产党宣言》发表</h4><p>马克思恩格斯系统阐述科学社会主义的基本思想，标志着马克思主义的诞生。</p></div></div>
+      <div class="tl-item"><div class="tl-time"><span class="yr">1867</span></div><div class="tl-rail"><div class="dot"></div><div class="line"></div></div><div class="tl-body"><h4>《资本论》第一卷出版</h4><p>揭示剩余价值规律，为政治经济学奠定了科学基础。</p></div></div>
+      <div class="tl-item"><div class="tl-time"><span class="yr">1917</span></div><div class="tl-rail"><div class="dot"></div><div class="line"></div></div><div class="tl-body"><h4>十月革命</h4><p>列宁领导俄国革命取得胜利，马克思主义由理论变为现实的社会制度。</p></div></div>
+      <div class="tl-item"><div class="tl-time"><span class="yr">1978</span></div><div class="tl-rail"><div class="dot"></div><div class="line"></div></div><div class="tl-body"><h4>改革开放</h4><p>“实践是检验真理的唯一标准”大讨论推动了思想解放，为马克思主义中国化提供了新的实践基础。</p></div></div>
+      <div class="tl-item"><div class="tl-time"><span class="yr">今</span></div><div class="tl-rail"><div class="dot"></div><div class="line"></div></div><div class="tl-body"><h4>马克思主义中国化时代化</h4><p>在当代中国实践基础上不断推进理论创新，指导中国式现代化建设。</p></div></div>
+    </div>
+  </section>
+</main>
+
+<footer>马克思主义基本原理课程实践 · 计算机科学与技术专业</footer>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal-content">
+    <button class="modal-close" id="modalClose" aria-label="关闭">×</button>
+    <div class="modal-kicker">结合专业 · 原理分析</div>
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+/* ===== 页面切换 ===== */
+var btns = document.querySelectorAll('nav button');
+var pgs = document.querySelectorAll('.page');
+function switchPage(id){
+  for(var i=0;i<btns.length;i++){btns[i].classList.toggle('on',btns[i].dataset.p===id);}
+  for(var i=0;i<pgs.length;i++){pgs[i].classList.toggle('on',pgs[i].id===id);}
+  window.scrollTo({top:0,behavior:'auto'});
+}
+for(var i=0;i<btns.length;i++){btns[i].onclick=function(){switchPage(this.dataset.p);};}
+var features=document.querySelectorAll('.feature');
+for(var i=0;i<features.length;i++){features[i].onclick=function(){switchPage(this.dataset.target);};}
+
+/* ===== 照片轮播（真实照片，禁止生成） ===== */
+var idx=0, timer=null;
+var track=document.getElementById('carTrack');
+var slides=track.children;
+var dotsBox=document.getElementById('carDots');
+for(var i=0;i<slides.length;i++){
+  (function(i){
+    var b=document.createElement('button');b.setAttribute('aria-label','第'+(i+1)+'张');
+    b.onclick=function(){go(i);};
+    dotsBox.appendChild(b);
+  })(i);
+}
+function dots(){var ds=dotsBox.children;for(var i=0;i<ds.length;i++){ds[i].classList.toggle('on',i===idx);}}
+function go(n){idx=(n+slides.length)%slides.length;track.style.transform='translateX(-'+(idx*100)+'%)';dots();}
+function next(){go(idx+1);}
+function play(){stop();timer=setInterval(next,4200);}
+function stop(){if(timer){clearInterval(timer);timer=null;}}
+document.getElementById('carPrev').onclick=function(){stop();go(idx-1);play();};
+document.getElementById('carNext').onclick=function(){stop();go(idx+1);play();};
+dots();play();
+
+/* ===== 结合专业 · 弹窗 ===== */
+var techData={
+  t1:{title:"生产力与生产关系：硬件与软件",body:"<p>生产力决定生产关系，是历史唯物主义的基本命题。在计算机领域，硬件算力可视为技术基础，软件生态与开发模式则构成建立在其上的协作关系。</p><p>硬件性能的提升为软件发展提供条件。例如，早期受限于内存与算力，许多算法只能在理论上成立；随着GPU等硬件的成熟，深度学习才具备大规模应用的可能。</p><p>软件需求同样会反作用于硬件。当前大模型训练对显存和算力的需求，正在推动芯片架构与互联技术的持续演进。二者之间并非单向决定，而是相互制约、相互促进。</p>"},
+  t2:{title:"量变与质变：算法优化",body:"<p>质量互变规律表明，量变是质变的必要准备，质变是量变的必然结果。这一规律在算法优化中表现得很直接。</p><p>对代码进行局部重构、减少冗余判断、优化缓存访问，这些改动单独看效果有限，属于量变。但当算法复杂度从 O(n²) 降至 O(n log n)，或系统架构由单机扩展为分布式时，处理能力会发生阶跃式提升，这就是质变。</p><p>需要指出的是，质变并不必然指向好的方向。若长期只增加功能而不进行重构，代码的可维护性同样会越过临界点而急剧下降，这属于反向的质变。</p>"},
+  t3:{title:"矛盾分析法：时间与空间的取舍",body:"<p>时间复杂度和空间复杂度构成算法设计中的一对基本矛盾。二者往往不能同时最优，需要根据具体场景确定主要矛盾。</p><p>以数据去重为例，采用哈希表可以获得接近 O(1) 的查找效率，但内存占用随数据规模线性增长；当数据量超出内存容量时，该方案不再可行。此时改用排序后比较的方案，时间复杂度上升，但空间开销显著降低，整体反而更稳定。</p><p>这说明具体问题具体分析并非抽象原则，而是工程实践中必须面对的现实约束。</p>"},
+  t4:{title:"实践是检验真理的唯一标准：软件测试",body:"<p>实践是检验认识真理性的唯一标准。在软件开发中，这一原理最直接的体现就是测试。</p><p>代码能否通过编译，只能说明语法层面没有错误，并不能保证逻辑正确。一个函数在文档中描述得再完整，也必须通过单元测试、集成测试等环节来验证其行为是否符合预期。</p><p>测试不通过，说明实现与需求之间存在偏差，需要回到代码本身进行修正。这与认识经由实践检验、再回到实践的过程是一致的。</p>"},
+  t5:{title:"科技异化：过度依赖AI",body:"<p>马克思所讨论的异化，指人创造出来的东西反过来支配人。在技术高度发展的今天，这一现象有新的表现形式。</p><p>以AI辅助编程为例，合理使用可以提高效率，但如果使用者长期不参与算法设计与逻辑推导，仅依赖工具生成代码，其自身的分析能力和调试能力就可能逐步退化。工具本应扩展人的能力，一旦反过来削弱人的主体性，就构成了异化。</p><p>因此，对技术工具应保持自觉，明确其辅助定位，避免让工具替代人的思考过程。</p>"},
+  t6:{title:"人民群众是历史的创造者：开源社区",body:"<p>历史唯物主义认为，人民群众是社会历史的主体，是社会物质财富和精神财富的创造者。开源社区是这一原理在数字时代的典型体现。</p><p>Linux、Python 等大型开源项目，并非由少数人独立完成，而是依靠全球范围内大量开发者的持续协作。代码提交、缺陷报告、文档完善、代码审查等环节，均由不同参与者共同完成。</p><p>单个贡献者所做的工作可能有限，但大量实践汇聚起来，就形成了具有广泛影响力的公共产品。这正是集体实践在技术领域的体现。</p>"}
+};
+var modal=document.getElementById('modal');
+function openModal(key){
+  var d=techData[key];if(!d)return;
+  document.getElementById('modalTitle').innerText=d.title;
+  document.getElementById('modalBody').innerHTML=d.body;
+  modal.classList.add('show');
+}
+function closeModal(){modal.classList.remove('show');}
+var techs=document.querySelectorAll('.tech-item');
+for(var i=0;i<techs.length;i++){techs[i].onclick=function(){openModal(this.dataset.key);};}
+document.getElementById('modalClose').onclick=closeModal;
+modal.onclick=function(e){if(e.target===modal)closeModal();};
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>
